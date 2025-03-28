@@ -57,6 +57,8 @@ class CrudUserController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -64,6 +66,8 @@ class CrudUserController extends Controller
         $data = $request->all();
         $check = User::create([
             'name' => $data['name'],
+            'phone' => $data['phone'],
+            'address' => $data['address'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
@@ -95,12 +99,17 @@ class CrudUserController extends Controller
      * Form update user page
      */
     public function updateUser(Request $request)
-    {
-        $user_id = $request->get('id');
-        $user = User::find($user_id);
+{
+    $user_id = $request->get('id');
+    $user = User::find($user_id);
 
-        return view('crud_user.update', ['user' => $user]);
+    if (!$user) {
+        return redirect('list')->withErrors('User not found');
     }
+
+    return view('crud_user.update', compact('user'));
+}
+
 
     /**
      * Submit form update user
@@ -108,21 +117,30 @@ class CrudUserController extends Controller
     public function postUpdateUser(Request $request)
     {
         $input = $request->all();
-
+    
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,id,'.$input['id'],
-            'password' => 'required|min:6',
+            'phone' => 'required',
+            'address' => 'required',
+            'email' => 'required|email|unique:users,email,'.$input['id'],
+            'password' => 'nullable|min:6',
         ]);
-
-       $user = User::find($input['id']);
-       $user->name = $input['name'];
-       $user->email = $input['email'];
-       $user->password = $input['password'];
-       $user->save();
-
-        return redirect("list")->withSuccess('You have signed-in');
+    
+        $user = User::find($input['id']);
+        $user->name = $input['name'];
+        $user->email = $input['email'];
+        $user->phone = $input['phone'];
+        $user->address = $input['address'];
+    
+        if (!empty($input['password'])) {
+            $user->password = Hash::make($input['password']);
+        }
+    
+        $user->save();
+    
+        return redirect("list")->withSuccess('User updated successfully');
     }
+    
 
     /**
      * List of users
