@@ -37,7 +37,7 @@ Route::get('/register', function () {
 });
 
 Route::get('/list1', function () {
-    return file_get_contents(public_path('EXE/EXE1/public/list1.html'));
+    return file_get_contents(public_path('EXE/EXE1/public/list.html'));
 });
 
 Route::get('/update1', function () {
