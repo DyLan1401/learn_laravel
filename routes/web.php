@@ -69,4 +69,5 @@ Route::get('signout', [CrudUserController::class, 'signOut'])->name('signout');
 
 Route::get('/', function () {
     return view('welcome');
+    
 });

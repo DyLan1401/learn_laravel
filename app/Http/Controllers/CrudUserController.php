@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
+
+use Illuminate\Support\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,8 +57,6 @@ class CrudUserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -68,8 +66,10 @@ class CrudUserController extends Controller
             'name' => $data['name'],
             'phone' => $data['phone'],
             'address' => $data['address'],
+            'QueQuan' => $data['QueQuan'],
+            'CCCD' => $data['CCCD'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+            'password' =>\Illuminate\Support\Facades\Hash::make($data['password'])
         ]);
 
         return redirect("login");
@@ -99,17 +99,12 @@ class CrudUserController extends Controller
      * Form update user page
      */
     public function updateUser(Request $request)
-{
-    $user_id = $request->get('id');
-    $user = User::find($user_id);
+    {
+        $user_id = $request->get('id');
+        $user = User::find($user_id);
 
-    if (!$user) {
-        return redirect('list')->withErrors('User not found');
+        return view('crud_user.update', ['user' => $user]);
     }
-
-    return view('crud_user.update', compact('user'));
-}
-
 
     /**
      * Submit form update user
@@ -117,36 +112,36 @@ class CrudUserController extends Controller
     public function postUpdateUser(Request $request)
     {
         $input = $request->all();
-    
+
         $request->validate([
             'name' => 'required',
             'phone' => 'required',
             'address' => 'required',
-            'email' => 'required|email|unique:users,email,'.$input['id'],
-            'password' => 'nullable|min:6',
+            'QueQuan' => 'required',
+            'CCCD' => 'required',
+            'email' => 'required|email|unique:users,id,'.$input['id'],
+            'password' => 'required|min:6',
         ]);
-    
-        $user = User::find($input['id']);
-        $user->name = $input['name'];
-        $user->email = $input['email'];
-        $user->phone = $input['phone'];
-        $user->address = $input['address'];
-    
-        if (!empty($input['password'])) {
-            $user->password = Hash::make($input['password']);
-        }
-    
-        $user->save();
-    
-        return redirect("list")->withSuccess('User updated successfully');
+
+       $user = User::find($input['id']);
+       $user->name = $input['name'];
+       $user->email = $input['email'];
+       $user->password = $input['password'];
+       $user->save();
+
+        return redirect("list")->withSuccess('You have signed-in');
     }
-    
 
     /**
      * List of users
      */
     public function listUser()
     {
+//        $users = [
+//                'users' => User::all()
+//        ];
+//        return view('crud_user.ronaldo', $users);
+
         if(Auth::check()){
             $users = User::all();
             return view('crud_user.list', ['users' => $users]);
@@ -159,7 +154,7 @@ class CrudUserController extends Controller
      * Sign out
      */
     public function signOut() {
-        Session::flush();
+        \Illuminate\Support\Facades\Session::flush();
         Auth::logout();
 
         return Redirect('login');
