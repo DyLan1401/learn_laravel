@@ -66,8 +66,6 @@ class CrudUserController extends Controller
             'name' => $data['name'],
             'phone' => $data['phone'],
             'address' => $data['address'],
-            'QueQuan' => $data['QueQuan'],
-            'CCCD' => $data['CCCD'],
             'email' => $data['email'],
             'password' =>\Illuminate\Support\Facades\Hash::make($data['password'])
         ]);
@@ -117,8 +115,7 @@ class CrudUserController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'address' => 'required',
-            'QueQuan' => 'required',
-            'CCCD' => 'required',
+           
             'email' => 'required|email|unique:users,id,'.$input['id'],
             'password' => 'required|min:6',
         ]);

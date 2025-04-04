@@ -24,21 +24,7 @@
                                         <span class="text-danger">{{ $errors->first('phone') }}</span>
                                     @endif
                                 </div>
-                                <div class="form-group mb-3">
-                                    <input type="text" placeholder="QueQuan" id="QueQuan" class="form-control" name="QueQuan"
-                                           required >
-                                    @if ($errors->has('QueQuan'))
-                                        <span class="text-danger">{{ $errors->first('QueQuan') }}</span>
-                                    @endif
-                                </div>
-                                <div class="form-group mb-3">
-                                    <input type="text" placeholder="CCCD" id="CCCD" class="form-control" name="CCCD"
-                                           required >
-                                    @if ($errors->has('CCCD'))
-                                        <span class="text-danger">{{ $errors->first('CCCD') }}</span>
-                                    @endif
-                                </div>
-                               
+
                                 <div class="form-group mb-3">
                                     <input type="text" placeholder="address" id="address" class="form-control" name="address"
                                            required >

@@ -35,22 +35,8 @@
                                         <span class="text-danger">{{ $errors->first('address') }}</span>
                                     @endif
                                 </div>
-                                <div class="form-group mb-3">
-                                    <input type="text" placeholder="QueQuan" id="QueQuan" class="form-control" name="QueQuan"
-                                           value="{{ $user->QueQuan }}"
-                                           required autofocus>
-                                    @if ($errors->has('QueQuan'))
-                                        <span class="text-danger">{{ $errors->first('QueQuan') }}</span>
-                                    @endif
-                                </div>
-                                <div class="form-group mb-3">
-                                    <input type="text" placeholder="CCCD" id="CCCD" class="form-control" name="CCCD"
-                                           value="{{ $user->CCCD }}"
-                                           required autofocus>
-                                    @if ($errors->has('CCCD'))
-                                        <span class="text-danger">{{ $errors->first('CCCD') }}</span>
-                                    @endif
-                                </div>
+                                
+                               
                             
                                 <div class="form-group mb-3">
                                     <input type="text" placeholder="Email" id="email_address" class="form-control"
